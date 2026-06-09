@@ -1,0 +1,39 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+}
+
+.skeletonCard {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.errorBox {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text2);
+}
+.errorIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text2);
+}
+.emptyIcon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
