@@ -78,5 +78,5 @@ vireon/
 | Эпизоды | `episodes` из `with_episodes=true` |
 | Озвучки | Несколько результатов по одному ID |
 | Плеер | `link` → iframe |
-| Player API | postMessage `kodik_player_api` |
+| Player API | postMessage `kodik_player_api` | 
 
