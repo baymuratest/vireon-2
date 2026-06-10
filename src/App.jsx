@@ -4,36 +4,24 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import SearchPage from './pages/SearchPage';
-import AnimePage from './pages/AnimePage';
+import WatchPage from './pages/WatchPage';
 import CatalogPage from './pages/CatalogPage';
-import SetupPage from './pages/SetupPage';
-import { setToken, getToken } from './utils/kodik';
+import NotFound from './pages/NotFound';
 
 export default function App() {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Load token from localStorage if saved
-    const saved = localStorage.getItem('vireon_token');
-    if (saved && !getToken()) {
-      setToken(saved);
-    }
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
       <main style={{ flex: 1 }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/anime/:id" element={<AnimePage />} />
-          <Route path="/catalog" element={<CatalogPage />} />
-          <Route path="/setup" element={<SetupPage />} />
+          <Route path="/"            element={<Home />} />
+          <Route path="/search"      element={<SearchPage />} />
+          <Route path="/catalog"     element={<CatalogPage />} />
+          <Route path="/watch/:id"   element={<WatchPage />} />
+          <Route path="*"            element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
