@@ -1,129 +1,82 @@
-# 🎌 Vireon — Аниме плеер на Kodik API
+# 🎬 Vireon — Онлайн-кинотеатр на Kodik API
 
-Красивый React-сайт для просмотра аниме через Kodik API.
+Профессиональный сайт для просмотра фильмов, сериалов, аниме и мультфильмов.
+Дизайн вдохновлён Shikimori / Animego / Animori.
 
-## ✨ Что умеет
+## ✨ Возможности
 
-- 🏠 Главная с онгоингами и топ аниме
-- 🔍 Поиск по названию
-- 📋 Каталог с фильтрами (жанр, статус, сортировка)
-- 🎬 Страница аниме со встроенным плеером Kodik
-- 🎙 Выбор озвучки / субтитров
+- 🏠 Главная с героем-баннером, онгоингами, топ аниме / фильмов / сериалов
+- 🔍 Поиск по всей базе Kodik
+- 📋 Каталог с фильтрами: категория, жанр, статус, год, сортировка
+- 🎬 Страница просмотра:
+  - Постер, рейтинг (Shikimori / IMDb / КП), жанры, описание
+  - **Красивый селектор озвучек** (голосовые + субтитры отдельно)
+  - Встроенный плеер Kodik с постером
+  - **Player API** — отслеживание серии/сезона/времени в реальном времени
+  - Список эпизодов с миниатюрами (если доступны)
+  - Список актёров, подробная информация
+  - Прогресс-бар онгоингов, таймер следующей серии
 - 📱 Полностью адаптивный дизайн
+- ⚡ Cloudflare Pages — деплой без сервера
 
-## 🚀 Быстрый старт
+## 🔑 API токен
 
-### 1. Установка
+Токен вшит в `src/utils/kodik.js` — строка `const TOKEN = '...'`
+
+**Пользователь ничего не видит и не вводит!**
+
+Получить/заменить токен: https://bd.kodikres.com/users/sites
+
+## 🚀 Запуск
 
 ```bash
 npm install
+npm run dev       # http://localhost:5173
+npm run build     # собрать dist/
 ```
 
-### 2. Получи API ключ Kodik
+## ☁️ Деплой Cloudflare Pages (бесплатно)
 
-1. Зарегистрируйся на https://bd.kodikres.com/users/sites
-2. Создай сайт и получи API token
-3. Вставь токен на странице `/setup` в браузере
+**Вариант А — перетащить папку:**
+1. `npm run build`
+2. dash.cloudflare.com → Pages → Create → Upload assets → загрузи `dist/`
+3. Сайт готов с HTTPS!
 
-> Токен хранится только в localStorage твоего браузера!
-
-### 3. Запуск локально
-
-```bash
-npm run dev
-```
-
-Открой http://localhost:5173
-
-### 4. Сборка
-
-```bash
-npm run build
-```
-
-Папка `dist/` будет готова к деплою.
-
----
-
-## ☁️ Деплой на Cloudflare Pages (БЕСПЛАТНО)
-
-**Сервер НЕ нужен!** Vireon — это 100% статический SPA.
-
-### Вариант A — через UI (проще):
-
-1. Зайди на https://dash.cloudflare.com
-2. Pages → Create a project → Upload assets
-3. Загрузи содержимое папки `dist/`
-4. Готово! Сайт получит `.pages.dev` домен с HTTPS
-
-### Вариант B — через Git (автодеплой):
-
-1. Запушь проект на GitHub
-2. Cloudflare Pages → Connect to Git → выбери репо
+**Вариант Б — через GitHub (автодеплой):**
+1. Запушь на GitHub
+2. Cloudflare Pages → Connect to Git → выбрать репо
 3. Build command: `npm run build`
-4. Build output directory: `dist`
-5. При каждом push — автодеплой!
+4. Output directory: `dist`
 
-### Переменные окружения (опционально)
-
-Если хочешь вшить токен в сборку (а не вводить в интерфейсе):
-
-```
-VITE_KODIK_TOKEN=твой_токен_здесь
-```
-
-В Cloudflare Pages: Settings → Environment Variables → Add variable
-
----
-
-## 🏗️ Структура проекта
+## 📁 Структура
 
 ```
 vireon/
 ├── public/
-│   ├── _redirects        ← SPA роутинг для Cloudflare
-│   └── favicon.svg
+│   ├── logo.png          ← логотип
+│   └── _redirects        ← SPA роутинг для Cloudflare
 ├── src/
-│   ├── components/
-│   │   ├── Navbar.jsx
-│   │   ├── AnimeCard.jsx
-│   │   ├── AnimeGrid.jsx
-│   │   └── Footer.jsx
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── SearchPage.jsx
-│   │   ├── AnimePage.jsx
-│   │   ├── CatalogPage.jsx
-│   │   └── SetupPage.jsx
-│   ├── utils/
-│   │   └── kodik.js      ← Весь Kodik API
-│   ├── styles/
-│   │   └── global.css
-│   └── App.jsx
+│   ├── components/       ← Navbar, MediaCard, MediaGrid, Footer
+│   ├── pages/            ← Home, Search, Catalog, Watch, NotFound
+│   ├── utils/kodik.js    ← Весь Kodik API (токен здесь)
+│   └── styles/global.css ← Дизайн-система
 ├── index.html
-├── vite.config.js
-└── package.json
+├── package.json
+└── vite.config.js
 ```
 
-## 📡 Что берём из Kodik API
+## 📡 Используемые данные из Kodik
 
-| Данные | Откуда |
-|--------|--------|
-| Название, год, описание | `material_data` |
-| Постер | `material_data.anime_poster_url` |
-| Рейтинг | `material_data.shikimori_rating` |
-| Жанры | `material_data.anime_genres` |
-| Количество эпизодов | `episodes_count` |
-| Статус (онгоинг / вышел) | `material_data.anime_status` |
-| Плеер (embed) | `link` → iframe |
-| Список озвучек | несколько результатов по одному shikimori_id |
+| Данные | API поле |
+|--------|----------|
+| Постер | `material_data.anime_poster_url` / `poster_url` |
+| Название | `material_data.title` / `anime_title` |
+| Рейтинг | `shikimori_rating` / `imdb_rating` / `kinopoisk_rating` |
+| Жанры | `anime_genres` / `genres` |
+| Описание | `anime_description` / `description` |
+| Статус | `anime_status` (ongoing/released/anons) |
+| Эпизоды | `episodes` из `with_episodes=true` |
+| Озвучки | Несколько результатов по одному ID |
+| Плеер | `link` → iframe |
+| Player API | postMessage `kodik_player_api` |
 
-## 🔑 Как работает токен
-
-- Сохраняется в `localStorage` браузера
-- Можно прописать через `VITE_KODIK_TOKEN` в env для вшивки в сборку
-- Никогда не покидает браузер пользователя
-
----
-
-Made with ❤️ using React + Vite + Kodik API
