@@ -1,23 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Footer.module.css';
+import { CATEGORIES } from '../utils/kodik';
+import s from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.inner}>
-        <div className={styles.brand}>
-          <span className={styles.logo}>VIREON</span>
-          <p className={styles.desc}>Смотри аниме в лучшем качестве.<br/>Контент предоставляется сервисом Kodik.</p>
+    <footer className={s.footer}>
+      <div className={s.inner}>
+        <div className={s.brand}>
+          <Link to="/" className={s.logo}>
+            <img src="/logo.png" alt="Vireon" />
+            <span>VIREON</span>
+          </Link>
+          <p>Смотри фильмы, сериалы и аниме онлайн в лучшем качестве. Контент предоставляется партнёрским сервисом Kodik.</p>
         </div>
-        <div className={styles.links}>
+
+        <div className={s.col}>
+          <h4>Разделы</h4>
+          {CATEGORIES.map(c => (
+            <Link key={c.id} to={c.id === 'all' ? '/catalog' : `/catalog?cat=${c.id}`}>
+              {c.icon} {c.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className={s.col}>
+          <h4>Навигация</h4>
           <Link to="/">Главная</Link>
           <Link to="/catalog">Каталог</Link>
-          <Link to="/setup">Настройка API</Link>
+          <Link to="/search">Поиск</Link>
         </div>
-        <div className={styles.copy}>
-          <p>© 2025 Vireon. Powered by Kodik API.</p>
-        </div>
+      </div>
+      <div className={s.bottom}>
+        <p>© {new Date().getFullYear()} Vireon. Все права защищены. Видеоконтент предоставлен Kodik.</p>
       </div>
     </footer>
   );
